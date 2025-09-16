@@ -5,13 +5,11 @@ WORKDIR /app
 
 # Copy pom.xml and download dependencies using cache
 COPY pom.xml .
-RUN --mount=type=cache,target=/root/.m2/repository,id=aadhar-parser-mvn-cache \
-    mvn -q -e -DskipTests dependency:go-offline
+RUN mvn -q -e -DskipTests dependency:go-offline
 
 # Copy source code and build using cached dependencies
 COPY src ./src
-RUN --mount=type=cache,target=/root/.m2/repository,id=aadhar-parser-mvn-cache \
-    mvn -q -e -DskipTests package
+RUN mvn -q -e -DskipTests package
 
 # Stage 2: Runtime
 FROM eclipse-temurin:17-jre
