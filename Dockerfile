@@ -1,5 +1,6 @@
+# syntax=docker/dockerfile:1.7-labs
 # Stage 1: Build
-FROM eclipse-temurin:17-jdk as builder
+FROM maven:3.9.8-eclipse-temurin-17 as builder
 WORKDIR /app
 
 # Copy pom.xml and download dependencies using cache
