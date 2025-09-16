@@ -1,9 +1,9 @@
 FROM eclipse-temurin:17-jdk as builder
 WORKDIR /app
 COPY pom.xml .
-RUN --mount=type=cache,target=/root/.m2 mvn -q -e -DskipTests dependency:go-offline
+RUN --mount=type=cache,id=maven-cache,target=/root/.m2 mvn -q -e -DskipTests dependency:go-offline
 COPY src ./src
-RUN --mount=type=cache,target=/root/.m2 mvn -q -e -DskipTests package
+RUN --mount=type=cache,id=maven-cache,target=/root/.m2 mvn -q -e -DskipTests package
 
 FROM eclipse-temurin:17-jre
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
